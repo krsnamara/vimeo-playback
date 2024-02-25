@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vimeo API Example</title>
+  </head>
+  <body>
+    <!-- Include the Vimeo Player API script -->
+    <script src="https://player.vimeo.com/api/player.js"></script>
+
+    <!-- Create a container for the Vimeo player -->
+    <div id="vimeo-player"></div>
+
+    <script>
+      // Your Vimeo video ID
+      const videoId = 'YOUR_VIDEO_ID'
+
+      // Create a new Vimeo Player instance
+      const player = new Vimeo.Player('vimeo-player', {
+        id: videoId,
+        width: 640,
+        height: 360,
+        autopause: false, // Important: Disable autopause to continue tracking play position after leaving the video
+      })
+
+      // Listen for the 'playProgress' event to record play position
+      player.on('playProgress', function (data) {
+        // Save the current play position (in seconds) in a variable
+        window.playPosition = data.seconds
+      })
+
+      // Listen for the 'beforeunload' event to store the play position in a cookie
+      window.addEventListener('beforeunload', function () {
+        if (window.playPosition !== undefined) {
+          // Set a cookie with the play position (you may want to enhance this for better cookie handling)
+          document.cookie = `playPosition=${window.playPosition}; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`
+        }
+      })
+
+      // Load the saved play position when the player is ready
+      player.ready().then(function () {
+        const savedPlayPosition = getCookie('playPosition')
+        if (savedPlayPosition !== null) {
+          // Seek to the saved play position
+          player.setCurrentTime(parseFloat(savedPlayPosition))
+        }
+      })
+
+      // Function to get a cookie value by name
+      function getCookie(name) {
+        const match = document.cookie.match(
+          new RegExp('(^| )' + name + '=([^;]+)')
+        )
+        return match ? match[2] : null
+      }
+
+      // Optional: Listen for the 'ended' event to clear the saved play position when the video finishes
+      player.on('ended', function () {
+        // Clear the cookie
+        document.cookie =
+          'playPosition=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+      })
+    </script>
+  </body>
+</html>
