@@ -1,0 +1,22 @@
+.Nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 10%;
+  background-color: #6981b0;
+}
+
+.Nav-link {
+  color: teal;
+  font-size: 1.4em;
+  flex: 0 1 auto;
+  line-height: 1;
+  padding: 0.8rem;
+  text-align: center;
+  text-underline-offset: 0.1em;
+}
+
+.Nav-link.active {
+  text-decoration-thickness: 0.22em;
+  text-underline-offset: 0.1em;
+}

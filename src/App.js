@@ -1,18 +1,20 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Home } from './views/Home'
-import { VideoPlayer } from './components/VideoPlayer'
+import { UWave } from './components/UWave'
+import { VimeoAPI } from './components/VimeoAPI'
+import { Layout } from './views/Layout'
+import './App.css'
 
 const videoId = '51712337'
 
 const App = () => (
   <Router>
-    <nav>
-      <Link to="/">Home</Link>
-      <Link to="/video">Video</Link>
-    </nav>
     <Routes>
-      <Route index element={<Home />} />
-      <Route path="/video" element={<VideoPlayer videoId={videoId} />} />
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="/UWave" element={<UWave videoId={videoId} />} />
+        <Route path="/vimeoAPI" element={<VimeoAPI videoId={videoId} />} />
+      </Route>
     </Routes>
   </Router>
 )
