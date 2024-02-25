@@ -1,25 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import { Home } from './views/Home'
+import { VideoPlayer } from './components/VideoPlayer'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const videoId = '51712337'
 
-export default App;
+const App = () => (
+  <Router>
+    <nav>
+      <Link to="/">Home</Link>
+      <Link to="/video">Video</Link>
+    </nav>
+    <Routes>
+      <Route index element={<Home />} />
+      <Route path="/video" element={<VideoPlayer videoId={videoId} />} />
+    </Routes>
+  </Router>
+)
+
+export default App
